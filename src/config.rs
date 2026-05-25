@@ -118,7 +118,14 @@ lazy_static::lazy_static! {
     pub static ref OVERWRITE_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref DEFAULT_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref OVERWRITE_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = {
+    let mut map = HashMap::new();
+    // 关键：设置 login_required 为 true，强制跳转登录页
+    map.insert("login_required".to_string(), "true".to_string());
+    // 可选：如果你想设置固定的被控端密码，取消下面这行注释
+    // map.insert("password".to_string(), "你的固定密码".to_string());
+    RwLock::new(map)
+};
     pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
 }
 
@@ -156,8 +163,8 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
-pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
+pub const RENDEZVOUS_SERVERS: &[&str] = &["www.yibu-ltd.top"];
+pub const RS_PUB_KEY: &str = "A7OcfD5t1+B1MMLi6csCaHBy4PgsaaRcgzJ7uk2vFtY=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
